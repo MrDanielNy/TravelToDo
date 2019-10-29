@@ -119,7 +119,7 @@ else {
 //var userID = 0;
 
 //console.log("show userID in window modul =>  " + userID)
-
+//testing
 //Module only for createing new users to the program..
 //This is not necessary later on
 var TestModule = (function () {
