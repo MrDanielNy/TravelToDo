@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todo-lista-kopia</title>
+</head>
+
+<body>
+
+    
+    <div>
+        <div id="sign-in" class="login-site" style="display: block">
+
+            <h2>Skriv in användarnamn och lösenord</h2>
+            <div>
+                <input type="text" id="user-name" placeholder="användarnamn">
+            </div>
+            <div>
+                <input type="text" id="password" placeholder="lösenord">
+            </div>
+            <div>
+                <button id="sign-in-button">Sign in</button>
+            </div>
+            <div>
+                <button id="new-reg-button">Registrera ny användare</button>
+            </div>
+            <div>
+                <button id="forgot-password-button">Glömt lösenordet?</button>
+            </div>
+            <div>
+                <button id="create-user-button" class="test">Gör en random user</button>
+            </div>
+            <hr>
+        </div>
+        <div id="register" class="login-site" style="display: none">
+            <h2>Registrera ny användare</h2>
+            <div>
+                <a>Förnamn:</a>
+                <input type="text" id="add-first-name" class="reg-input">
+                <a id="fail-0"></a>
+            </div>
+            <div>
+                <a>Efternamn:</a>
+                <input type="text" id="add-last-name" class="reg-input">
+                <a id="fail-1"></a>
+            </div>
+            <div>
+                <a>Email: (frivilligt)</a>
+                <input type="text" id="add-email" class="reg-input">
+                <a id="fail-2"></a>
+            </div>
+            <div>
+                <a>Användarnamn:</a>
+                <input type="text" id="add-user-name" class="reg-input">
+                <a id="fail-3"></a>
+            </div>
+            <div>
+                <a>Ange nytt lösenord:</a>
+                <input type="text" id="add-password" class="reg-input">
+                <a id="fail-4"></a>
+            </div>
+            <div>
+                <a>Upprepa lösenord:</a>
+                <input type="text" id="repeat-password" class="reg-input">
+                <a id="fail-5"></a>
+            </div>
+            <div>
+                <button id="register-button">Register</button>
+            </div>
+            <div>
+                <button id="abort-reg-button">Avbryt</button>
+            </div>
+            <div>
+                <h2 id="register-success"></h2>
+            </div>
+            <hr>
+        </div>
+        <div id="forgot-password" class="login-site" style="display: none">
+            <div>
+                <div>
+                    <a>Skriv in ditt användarnamn så kommer ett popup med ditt lösenord</a>
+                </div>
+                <div>
+                    <a>Har du inte angivit en email-adress får du inget lösen</a>
+                </div>
+            </div>
+            <div>
+                <input type="text" id="forgetfull-user" placeholder="användarnamn">
+                <button id="send-password-button">Skicka</button>
+            </div>
+            <div>
+                <button id="back-from-forgot-button">Tillbaka</button>
+            </div>
+        </div>
+
+    </div>
+    <div id="user-manager-id" class="user-manager" style="display: none">
+        <div>
+            <h2>Hantera användare</h2>
+        </div>
+        <div>
+            <div id="change-user-data" class="changing-data">
+                <div>
+                    <strong>Firstname: </strong>
+                    <input type="text" id="show-user-firstname">
+                </div>
+                <div>
+                    <strong>Lastname: </strong>
+                    <input type="text" id="show-user-lastname">
+                </div>
+                <div>
+                    <strong>Email: </strong>
+                    <input type="text" id="show-user-email">
+                </div>
+                <div>
+                    <strong>Username: </strong>
+                    <input type="text" id="show-user-username">
+                </div>
+                <div>
+                    <button id="change-user-data">Change</button>
+                    <button id="change-user-password">Change password</button>
+                </div>
+            </div>
+            <div id="change-password" class="changing-data">
+                <div>
+                    <strong>Write current password: </strong>
+                    <input type="text" id="write-old-password">
+                </div>
+                <div>
+                    <strong>Write new password: </strong>
+                    <input type="text" id="write-new-password">
+                </div>
+                <div>
+                    <strong>Repeat new password: </strong>
+                    <input type="text" id="repeat-new-password">
+                </div>
+                <div>
+                    <button id="change-password-button">Change password</button>
+                </div>
+            </div>
+            <div id="to-change-data" class="changing-data">
+                <div>
+                    <strong>Type in password: </strong>
+                    <input type="text" id="password-to-change">
+                </div>
+                <div>
+                    <button id="to-change-button">Change</button>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button id="back-from-manager-button">Gå tillbaka</button>
+        </div>
+    </div>
+    <div id="test-div" style="display: none">
+        <div>
+            <h2 id="sign-in-success"></h2>
+        </div>
+        <div>
+            <button id="goto-user-manager-button">till hantera användare</button>
+        </div>
+        <div>
+            <button id="sign-out-button">Logga ut</button>
+        </div>
+    </div>
+    <div>
+        <div>
+            <h6 id="user-id-key" style="display: none">0</h6>
+        </div>
+    </div>
+
+
+
+
+    <script src="scripts.js"></script>
+</body>
+
+</html>
