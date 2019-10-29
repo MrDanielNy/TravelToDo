@@ -1,4 +1,4 @@
-//Hej
+//Hejsan
 function openForm() {
     document.getElementById("createActivity").style.display = "block";
 }
