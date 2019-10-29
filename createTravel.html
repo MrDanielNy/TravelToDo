@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Your Travel</title>
+</head>
+
+<body>
+    <h1>Create your travel</h1>
+    <div>
+        <input type="text" id="first-name" placeholder="First Name">
+        <input type="text" id="last-name" placeholder="Last Name">
+
+        <h4>What city are you traveling to?</h4>
+        <input type="text" id="city-input" placeholder="City">
+
+        <h4>Date of your travel</h4>
+
+        <label>From:</label>
+        <input type="date" id="from-date">
+        <label>To:</label>
+        <input type="date" id="to-date">
+
+        <p>
+           <label>Number of adults:</label> <input type="number" min="0" max="20" id="number-of-adults">
+           <label>Minors</label> <input type="checkbox" id="minors">
+           <h4>Economy</h4>
+           <label>Spending money</label> <input type="number" min="0" max="100000" id="spending-money">
+           <label>Currency:</label>
+           <input type="radio" name="currency" value="SEK" id="currency-s">SEK
+           <input type="radio" name="currency" value="€" id="currency-e">EUR 
+           <input type="radio" name="currency" value="$" id="currency-u">USD
+        </p>
+
+        <p>
+            <button id="create-travel">Create</button>
+        </p>
+    </div>
+
+    <script src="AEScripts.js"></script>
+</body>
+
+</html>
