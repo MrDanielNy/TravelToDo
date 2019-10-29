@@ -1,13 +1,17 @@
 var i = 0;
 var dateTime = new Date;
 //var travelLocation = [{Place: "", Datum: ""}];
-var travelLocation = [];
+//var travelLocation = [];
+var travelLocation = JSON.parse(localStorage.getItem("reason")) || [];
+
+
 //var travelLocations = JSON.parse(localStorage.getItem('itemsArray')) || [];
 var datum=dateTime.toLocaleDateString();
 
 function myFunction() {
     //Skriv ut varje gång knappen klickas
-    const usersList = document.getElementById("travel-list");
+    var usersList = document.getElementById("travel-list");
+    
     usersList.innerHTML += "<p>" + "Resa" + i++ + " " + datum + "</p>";
     //Lagra varje klick i en objekt-lista (heter det så??)
     //for (let index = 0; index < localStorage.length; index++) {
@@ -18,7 +22,7 @@ function myFunction() {
        // }
         travelLocation.push({Place: "Resa"+i});
         travelLocation.push({Datum: datum});
-        localStorage.setItem('itemsArray', JSON.stringify(travelLocation));
+        localStorage.setItem('reason', JSON.stringify(travelLocation));
     //}
         
    // localStorage.setItem('itemsArray', JSON.stringify(travelLocation)
