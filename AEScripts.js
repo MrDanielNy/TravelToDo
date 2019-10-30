@@ -20,16 +20,8 @@ var LocalStorageUser = (function () {
         const adultsInput = document.getElementById("number-of-adults");
         const adults = " (Adults: " + adultsInput.value + ")";
 
-        const minors = document.getElementById("minors").checked;
-        let kids = " "; 
-        
-        if(minors === true){
-            kids = " (Minors: Yes) ";
-        }
-
-        else {
-            kids = " (Minors: No) ";
-        }
+        const minors = document.getElementById("minors");
+        let kids = " (Kids: " + minors.value + ")"; 
 
         const currencyS = document.getElementById("currency-s");
         const currencyE = document.getElementById("currency-e");
@@ -50,8 +42,19 @@ var LocalStorageUser = (function () {
         const spendingMoney = " (Spendings: " + money.value + currency + ")";
 
         user = userName + city + date + adults + kids + spendingMoney;
-        const userString = JSON.stringify(user);
-        localStorage.setItem("profile", userString);
+        var userData;
+
+        if (localStorage.getItem("user") === null) {
+            userData = [];
+            userData.push(user);
+        }
+
+        else {
+            userData = JSON.parse(localStorage.getItem("user"));
+            userData.push(user);
+        }
+
+        localStorage.setItem("user", JSON.stringify(userData));
     }
     
     return { init }
