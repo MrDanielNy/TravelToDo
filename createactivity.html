@@ -90,35 +90,46 @@
     <button class="open-button" onclick="openForm()">Add activity</button>
 
     <div class="form-popup" id="createActivity">
-        <form action="/action_page.php" class="form-container">
+        <form action=createactivity.html class="form-container">
             <h1>Add activity</h1>
 
             <label for="Activity"><b>Name of the activity:</b></label>
-            <input type="text" placeholder="Aktivitet" required>
+            <input id="inputActivity" type="text" placeholder="Activity" required>
 
             <label for="Date"><b>Date of the activity:</b></label>
             <p></p>
-            <input type="date" placeholder="Date" required>
+            <input id="inputDate" type="date" placeholder="Date" required>
             <p></p>
             <label for="Time"><b>Time for the activity:</b></label>
             <p></p>
-            <input type="time" required>
+            <input id="inputTime" type="time" required>
             <p></p>
             <label for="Price"><b>Price for the activity:</b></label>
-            <input type="number" required>
+            <input id="inputNumber" type="number" required>
             <p></p>
-            <label for="Checkbox"><b>Is it a child?</b></label>
+            <label for="Checkbox"><b>Is it a child activity?</b></label>
             <p></p>
-            [Mark if true]<input type="checkbox" id="check"> 
+            [Mark if true]<input id="inputChild" type="checkbox" id="check">
             <p></p>
             <label for="Checkbox"><b>Is the activity inside?</b></label>
             <p></p>
-            [Mark if true]<input type="checkbox" id="check"> 
+            [Mark if true]<input id="inputInside" type="checkbox" id="check">
             <p></p>
-            <button type="submit" class="btn">Submit</button>
+            <button type="submit" class="btn" onclick="addActivity()">Submit</button>
             <button type="submit" class="btn cancel" onclick="closeForm()">Cancel</button>
         </form>
     </div>
+
+    <fieldset>
+        <legend>A locations activity</legend>
+        <div id=div1></div>
+        <div id=div2></div>
+        <div id=div3></div>
+        <div id=div4></div>
+        <div id=div5></div>
+        <div id=div6></div>
+    </fieldset>
+
     
     <script src="AHScripts.js"></script>
 </body>
