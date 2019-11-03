@@ -174,6 +174,9 @@ var DocumentHandler = (function() {
     }
 })();
 
+//ORM - Object Resource Manager
+
+
 //Run code when the DOM has loaded.
 window.addEventListener("DOMContentLoaded", DocumentHandler.init);
 
