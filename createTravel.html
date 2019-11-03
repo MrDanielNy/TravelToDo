@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Your Travel</title>
+</head>
+
+<body>
+    <h1>Create your travel</h1>
+    <div>
+        <input type="text" id="travel-name" placeholder="Name your travel">
+
+        <h4>Travel location</h4>
+        <input type="text" id="location-input" placeholder="Location">
+
+        <h4>Date of your travel</h4>
+
+        <label>From:</label>
+        <input type="date" id="from-date">
+        <label>To:</label>
+        <input type="date" id="to-date">
+
+        <p>
+           <label>Number of adults:</label> <input type="number" min="0" max="20" id="number-of-adults">
+           <label>Minors</label> <input type="number" id="minors" min="0" max="20">
+           <h4>Economy</h4>
+           <label>Spending money</label> <input type="number" min="0" max="100000" id="spending-money">
+        </p>
+
+        <p>
+            <button id="create-travel">Create</button>
+        </p>
+    </div>
+
+    <script src="AEScripts.js"></script>
+</body>
+
+</html>

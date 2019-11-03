@@ -87,7 +87,7 @@ function addActivity() {
         localStorage.setItem("Price", JSON.stringify(setNumber));
         localStorage.setItem("Child", JSON.stringify(setChild));
         localStorage.setItem("Inside", JSON.stringify(setInside));*/
-
+        //TODOStorage.deleteTodoById(1)
         TODOStorage.saveTodo(setActivity, setTime, setDate, setNumber, setChild, setInside);
     }
 
@@ -230,6 +230,17 @@ var TODOStorage = (function () {
         saveChanges();
     }
 
+    function deleteAllTODOS() {
+        for (const i in todos++) {
+            const todo = todos[i];
+            todos.splice(i, 1);
+            
+        }
+
+        saveChanges();
+    }
+
+
     function saveChanges() {
         const lsTodos = JSON.stringify(todos)
         localStorage.setItem('TODOS', lsTodos);
@@ -238,7 +249,7 @@ var TODOStorage = (function () {
 
 
 
-    return { init, saveTodo, listTodos, getTodoById, updateTodo, deleteTodoById };
+    return { init, saveTodo, listTodos, getTodoById, updateTodo, deleteTodoById, deleteAllTODOS };
 })();
 
 
