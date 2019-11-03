@@ -175,7 +175,100 @@ var DocumentHandler = (function() {
 })();
 
 //ORM - Object Resource Manager
+var TODOStorage = (function () {
+    var todos = [];
+    function init() {
+        const lsTodos = localStorage.getItem('TODOS');
+        todos = JSON.parse(lsTodos)
+        if (todos === null) {
+            todos = [];
+        }
 
+        const debugButton = document.getElementById("add");
+        debugButton.addEventListener("click", function() {
+            let randomGenerator = Math.random();
+            let newRandom = false;
+            if(randomGenerator >= 0,5) {
+                newRandom = true;
+            }
+            let newDescription = "nån text " + randomGenerator;
+
+            saveTodo(newRandom, newDescription);
+        })
+
+        const debugButtonLoad = document.getElementById("load");
+        debugButtonLoad.addEventListener("click", function() {
+            const pTodo = getTodoById(2);
+            let texten = document.getElementById("texten");
+            texten.innerHTML = String("id: " + pTodo.id + " Descr: " + pTodo.description + " Done: " + pTodo.done );
+        })
+
+        let texten = document.getElementById("texten");
+            texten.innerHTML = String("id: " + pTodo.id + " Descr: " + pTodo.description + " Done: " + pTodo.done );
+       
+
+    }
+    function saveTodo(done, description) {
+        
+        let maxId = 0
+        for (const i in todos) {
+            const todo = todos[i];
+            if (todo.id > maxId) {
+                maxId = todo.id;
+            }
+        }
+        const todo = {
+            id: maxId + 1,
+            done: done,
+            description: description
+        }
+        todos.push(todo);
+        saveChanges();
+    }
+
+    function listTodos() {
+        return todos;
+    }
+
+    function updateTodo() {
+        for (const i in todos === id) {
+            if (todos[i].id === id) {
+                todos[i].done = done;
+                todos[i].description = description;
+            }
+        }
+        saveChanges();
+    }
+
+    function getTodoById(id) {
+        for (const i in todos) {
+            const todo = todos[i];
+            if (todo.id === id) {
+                return todo;
+            }
+        }
+        return null;
+    }
+    function deleteTodoById(id) {
+        for (const i in todos) {
+            const todo = todos[i];
+            if (todo.id === id) {
+                todos.splice(i, 1);
+                break;
+            }
+        }
+        saveChanges();
+    }
+    function saveChanges() {
+        const lsTodos = JSON.stringify(todos)
+        localStorage.setItem('TODOS', lsTodos);
+    }
+    return { init, saveTodo, listTodos, getTodoById, updateTodo, deleteTodoById };
+})();
+
+/*document.addEventListener('DOMContentLoaded', function () {
+    TODOStorage.init();
+}) */
 
 //Run code when the DOM has loaded.
 window.addEventListener("DOMContentLoaded", DocumentHandler.init);
