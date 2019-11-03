@@ -1,4 +1,3 @@
-//Hejsan
 function openForm() {
     document.getElementById("createActivity").style.display = "block";
 }
@@ -75,19 +74,9 @@ function addActivity() {
     setInside = inside;
 
 
-    //localStorage.setItem('testObject', JSON.stringify(testObject));
-
     if (date && time && number && activity) {
-        /*
-        console.log(setTime);
-        localStorage.clear();
-        localStorage.setItem("Activity", JSON.stringify(setActivity));
-        localStorage.setItem("Time", JSON.stringify(setTime));
-        localStorage.setItem("Date", JSON.stringify(setDate));
-        localStorage.setItem("Price", JSON.stringify(setNumber));
-        localStorage.setItem("Child", JSON.stringify(setChild));
-        localStorage.setItem("Inside", JSON.stringify(setInside));*/
-        //TODOStorage.deleteTodoById(1)
+        
+        TODOStorage.deleteTodoById(1)
         TODOStorage.saveTodo(setActivity, setTime, setDate, setNumber, setChild, setInside);
     }
 
@@ -133,7 +122,7 @@ var TODOStorage = (function () {
         if (todos === null) {
             todos = [];
         }
-
+        console.log("funkar")
         if ( getTodoById(1)) {
 
             var getActivity = getTodoById(1).activity;
@@ -230,17 +219,6 @@ var TODOStorage = (function () {
         saveChanges();
     }
 
-    function deleteAllTODOS() {
-        for (const i in todos++) {
-            const todo = todos[i];
-            todos.splice(i, 1);
-            
-        }
-
-        saveChanges();
-    }
-
-
     function saveChanges() {
         const lsTodos = JSON.stringify(todos)
         localStorage.setItem('TODOS', lsTodos);
@@ -249,16 +227,11 @@ var TODOStorage = (function () {
 
 
 
-    return { init, saveTodo, listTodos, getTodoById, updateTodo, deleteTodoById, deleteAllTODOS };
+    return { init, saveTodo, listTodos, getTodoById, updateTodo, deleteTodoById };
 })();
 
 
 document.addEventListener('DOMContentLoaded', function () {
     TODOStorage.init();
+
 })
-
-
-
-
-
-
