@@ -23,23 +23,8 @@ var LocalStorageUser = (function () {
         const minors = document.getElementById("minors");
         let kids = " (Kids: " + minors.value + ")"; 
 
-        const currencyS = document.getElementById("currency-s");
-        const currencyE = document.getElementById("currency-e");
-        const currencyU = document.getElementById("currency-u");
-        let currency = " "
-
-        if(currencyS.checked === true){
-            currency = currencyS.value
-        }
-        else if(currencyE.checked === true){
-            currency = currencyE.value
-        }
-        else if(currencyU.checked === true){
-            currency = currencyU.value
-        }
-
         money = document.getElementById("spending-money");
-        const spendingMoney = " (Spendings: " + money.value + currency + ")";
+        const spendingMoney = " (Spendings: " + money.value + ")";
 
         user = userName + city + date + adults + kids + spendingMoney;
         var userData;
