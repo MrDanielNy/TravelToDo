@@ -1,48 +1,68 @@
 var LocalStorageUser = (function () {
-    //holam8
+    var userData = [];
+
     function init() {
         const button = document.getElementById("create-travel");
         button.addEventListener("click", createUser);
     }
 
-    function createUser(user) {
-        const firstName = document.getElementById("first-name");
-        const lastName = document.getElementById("last-name");
-        const userName = "(Name: " + firstName.value + " " + lastName.value + ")";
+    function saveTodo(locationName, location, datefrom, dateto, adults, minors, money) {
+        let maxId = 0;
+        for (const i in userData) {
+            const todo = userData[i];
+            if (todo.id > maxId) {
+                maxId = todo.id;
+            }
+        }
 
-        const cityInput = document.getElementById("city-input");
-        const city = " (Destination: " + cityInput.value + ")";
+        const todo = {
+            id: maxId + 1,
+            locationName: locationName,
+            location: location,
+            datefrom: datefrom,
+            dateto: dateto,
+            adults: adults,
+            minors: minors,
+            money:money
+        }
 
-        const fromDateInput = document.getElementById("from-date");
-        const toDateInput = document.getElementById("to-date");
-        const date = " (Date of travel: " + fromDateInput.value + " - " + toDateInput.value + ")";
+        userData.push(todo);
+        saveData();
+    }
 
-        const adultsInput = document.getElementById("number-of-adults");
-        const adults = " (Adults: " + adultsInput.value + ")";
+    function createUser() {
 
-        const minors = document.getElementById("minors");
-        let kids = " (Kids: " + minors.value + ")"; 
+        const locationName = document.getElementById("travel-name").value;
 
-        money = document.getElementById("spending-money");
-        const spendingMoney = " (Spendings: " + money.value + ")";
+        const location = document.getElementById("location-input").value;
 
-        user = userName + city + date + adults + kids + spendingMoney;
-        var userData;
+        const fromDateInput = document.getElementById("from-date").value;
+        const toDateInput = document.getElementById("to-date").value;
+
+        const adultsInput = document.getElementById("number-of-adults").value;
+
+        const minorsinput = document.getElementById("minors").value;
+
+        money = document.getElementById("spending-money").value;
 
         if (localStorage.getItem("user") === null) {
             userData = [];
-            userData.push(user);
+            saveTodo(locationName, location, fromDateInput, toDateInput, adultsInput, minorsinput, money);
         }
 
         else {
             userData = JSON.parse(localStorage.getItem("user"));
-            userData.push(user);
+            saveTodo(locationName, location, fromDateInput, toDateInput, adultsInput, minorsinput, money);
         }
+        saveData();
 
+    }
+
+    function saveData() {
         localStorage.setItem("user", JSON.stringify(userData));
     }
-    
-    return { init }
+
+    return { init, saveTodo }
 })();
 
 window.addEventListener("DOMContentLoaded", LocalStorageUser.init);
