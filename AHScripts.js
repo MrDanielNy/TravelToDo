@@ -74,10 +74,11 @@ function addActivity() {
     setChild = child;
     setInside = inside;
 
-    
+
     //localStorage.setItem('testObject', JSON.stringify(testObject));
 
     if (date && time && number && activity) {
+        /*
         console.log(setTime);
         localStorage.clear();
         localStorage.setItem("Activity", JSON.stringify(setActivity));
@@ -85,9 +86,9 @@ function addActivity() {
         localStorage.setItem("Date", JSON.stringify(setDate));
         localStorage.setItem("Price", JSON.stringify(setNumber));
         localStorage.setItem("Child", JSON.stringify(setChild));
-        localStorage.setItem("Inside", JSON.stringify(setInside));
+        localStorage.setItem("Inside", JSON.stringify(setInside));*/
 
-       
+        TODOStorage.saveTodo(setActivity, setTime, setDate, setNumber, setChild, setInside);
     }
 
 
@@ -115,30 +116,135 @@ function callLog() {
     localStorage.setItem("Date:", setDate)
 }
 
-if (localStorage.length !=0) {
+if (localStorage.length != 0) {
 
-    var getActivity = localStorage.getItem('Activity');
-    div1.innerHTML = "Activity: " + JSON.parse(getActivity);
-    
-    var getDate = localStorage.getItem('Date');
-    div2.innerHTML = "Date of the activity: " + JSON.parse(getDate);
-    
-    var getTime = localStorage.getItem('Time');
-    div3.innerHTML = "Time of the activity: " + JSON.parse(getTime);
-    
-    var getPrice = localStorage.getItem('Price');
-    div4.innerHTML = "Price of the activity: " + JSON.parse(getPrice);
-    
-    var getChild = localStorage.getItem('Child');
-    div5.innerHTML = "Is is a child or adult activity: " + JSON.parse(getChild);
-    
-    var getInside = localStorage.getItem('Inside');
-    div6.innerHTML = "Is the activity inside or outside: " + JSON.parse(getInside);
-    
+
+
 }
 
 
+var TODOStorage = (function () {
+    var todos = [];
 
+    function init() {
+        const lsTodos = localStorage.getItem('TODOS');
+        todos = JSON.parse(lsTodos)
+
+        if (todos === null) {
+            todos = [];
+        }
+
+        if ( getTodoById(1)) {
+
+            var getActivity = getTodoById(1).activity;
+            div1.innerHTML = "Activity: " + getActivity;
+        
+            var getTime = getTodoById(1).time;
+            div2.innerHTML = "Date of the activity: " + getTime;
+        
+            var getDate = getTodoById(1).date;
+            div3.innerHTML = "Time of the activity: " + getDate;
+        
+            var getPrice = getTodoById(1).price;
+            div4.innerHTML = "Price of the activity: " + getPrice;
+        
+            var getChild = getTodoById(1).child;
+            div5.innerHTML = "Is is a child or adult activity: " + getChild;
+        
+            var getInside = getTodoById(1).inside;
+            div6.innerHTML = "Is the activity inside or outside: " + getInside;
+
+
+        }
+        
+        
+    
+        
+
+    }
+
+    
+
+    function saveTodo(activity, time, date, price, child, inside) {
+
+        let maxId = 0
+        for (const i in todos) {
+            const todo = todos[i];
+            if (todo.id > maxId) {
+                maxId = todo.id;
+            }
+
+        }
+        const todo = {
+            id: maxId + 1,
+            activity: activity,
+            time: time,
+            date: date,
+            price: price,
+            child: child,
+            inside: inside
+        }
+
+        todos.push(todo);
+
+        saveChanges();
+    }
+
+    function listTodos() {
+        return todos;
+    }
+
+    function updateTodo() {
+        for (const i in todos === id) {
+            if (todos[i].id === id) {
+                todos[i].done = done;
+                todos[i].description = description;
+            }
+
+        }
+        saveChanges();
+    }
+
+    function getTodoById(id) {
+        for (const i in todos) {
+            const todo = todos[i];
+
+            if (todo.id === id) {
+                return todo;
+            }
+
+        }
+        return null;
+    }
+
+    function deleteTodoById(id) {
+        for (const i in todos) {
+            const todo = todos[i];
+
+            if (todo.id === id) {
+                todos.splice(i, 1);
+                break;
+            }
+        }
+
+        saveChanges();
+    }
+
+    function saveChanges() {
+        const lsTodos = JSON.stringify(todos)
+        localStorage.setItem('TODOS', lsTodos);
+
+    }
+
+
+
+    return { init, saveTodo, listTodos, getTodoById, updateTodo, deleteTodoById };
+})();
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    TODOStorage.init();
+})
 
 
 
