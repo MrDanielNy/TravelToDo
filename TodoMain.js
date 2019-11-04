@@ -1,11 +1,4 @@
-/* From AH code
-function openForm() {
-    document.getElementById("createActivity").style.display = "block";
-}
 
-function closeForm() {
-    document.getElementById("createActivity").style.display = "none";
-} */
 /*
     To be fixed:
     * Skapa ett objekt som innehåller alla datatyper vi ska ha OK
@@ -25,7 +18,7 @@ function closeForm() {
 var masterID = 0;
 
 function MasterIDHandler(shouldAdd) {
-    if(shouldAdd === true) {
+    if (shouldAdd === true) {
         masterID += 1;
         return masterID;
     } else {
@@ -33,15 +26,15 @@ function MasterIDHandler(shouldAdd) {
     }
 }
 
-function ActivityObject(newName, newDate, newTime, newPrice, isChildActivity, isInside) {
-    this.id = MasterIDHandler(true);
-    this.activityName = 'Activity ' + this.id;
+function ActivityObject(newId, newName, newDate, newTime, newPrice, isChildActivity, isInside, isDone) {
+    this.id = newId; //MasterIDHandler(true);
+    this.activityName = newName;
     this.date = newDate;
     this.time = newTime;
     this.price = newPrice;
     this.childActivity = isChildActivity;
     this.insideActivity = isInside;
-    this.done = false;
+    this.done = isDone;
 
     DocumentHandler.removeFromSpendingMoney(newPrice);
 }
@@ -51,8 +44,10 @@ var spendingMoney = 15000;
 var debugVariable1;
 var debugVariable2;
 
+/* TO BE REMOVED!
 //Debug functionality to be removed!
-var Debug = (function() {
+var Debug = (function () {
+
     //Create a new activity for debug purpose
     function debugCreateActivity() {
         //Create a new name starting from 1
@@ -73,202 +68,125 @@ var Debug = (function() {
     }
 
     return { debugCreateActivity }
-})();
+})(); */
 
 //Everything related to showing the activities
-var DocumentHandler = (function() {
+var DocumentHandler = (function () {
 
     //The first function to be run with all the initialazing code
     function init() {
-        const addDebugButton = document.getElementById("create-debug-data");
+        //Load Alex code inte my own
+        //$("#alex-html").load("createActivity.html");
+
+      /*  const addDebugButton = document.getElementById("create-debug-data");
         addDebugButton.addEventListener("click", Debug.debugCreateActivity);
+*/
+
+
+        const spendingMoneyLbl = document.getElementById("spending-money");
+        spendingMoneyLbl.innerHTML = spendingMoney;
+
+        TODOStorage.init();
+
+        //Autohide done objects
+        for (let i = 0; i < allActivities.length; i++) {
+            if (allActivities[i].done === true) {
+                let liToShow = document.getElementById("activity" + (i + 1));
+                $(liToShow).hide();
+            }
+        }
 
         //Show all checkbox
         const showHiddenListItems = document.getElementById("show-all");
-        showHiddenListItems.addEventListener("click", function() {
-            if(showHiddenListItems.checked === true) {
-                for(let i=0;i<allActivities.length;i++) {
-                    if(allActivities[i].done == true) {
+        showHiddenListItems.addEventListener("click", function () {
+            if (showHiddenListItems.checked === true) {
+                for (let i = 0; i < allActivities.length; i++) {
+                    if (allActivities[i].done == true) {
                         n = Number(i + 1);
-                        let liToShow = document.getElementById("activity"+(n));
+                        let liToShow = document.getElementById("activity" + (n));
                         console.log(liToShow);
                         $(liToShow).show();
                     }
                 }
             } else {
-                for(let i=0;i<allActivities.length;i++) {
-                    if(allActivities[i].done === true) {
-                        let liToShow = document.getElementById("activity"+(i+1));
+                for (let i = 0; i < allActivities.length; i++) {
+                    if (allActivities[i].done === true) {
+                        let liToShow = document.getElementById("activity" + (i + 1));
                         $(liToShow).hide();
                     }
                 }
             }
         });
-
-        const spendingMoneyLbl = document.getElementById("spending-money");
-        spendingMoneyLbl.innerHTML = spendingMoney;
     }
 
     //add to list of activities
     function addToList(newActivity) {
         const listOfActivities = document.getElementById("list-of-activities");
-        let buttonId = "remove" + (allActivities[allActivities.length-1].id);
+        let buttonId = "remove" + (allActivities[allActivities.length - 1].id);
         console.log(buttonId);
-        let stringToShow = newActivity.activityName + " " + newActivity.date + " " + newActivity.price + ",-";
+        let stringToShow = "Name: " + newActivity.activityName + " Date: " + newActivity.date + " Time: " + newActivity.time + " Price: " + newActivity.price + ",- Child activity: " + newActivity.childActivity + " Outside: " + newActivity.insideActivity;
         var container = document.createElement('div');
-        container.innerHTML += ("<li id='activity" + (allActivities[allActivities.length-1].id) + "'><input type='checkbox' id='checkIsDone" + (allActivities[allActivities.length-1].id) + "'>" + stringToShow + "<button id=" + buttonId + ">Remove Item</button></li");
+        container.innerHTML += ("<li id='activity" + (allActivities[allActivities.length - 1].id) + "'><input type='checkbox' id='checkIsDone" + (allActivities[allActivities.length - 1].id) + "'>" + stringToShow + "<button id=" + buttonId + ">Remove Item</button></li");
         listOfActivities.appendChild(container);
-        $("li").click(function() {
+        $("li").click(function () {
             alert("Populate Alexanders popup for changes!"); //Bugs out but should instead populate
-        }).children().click(function(e) {
-            return false; 
+        }).children().click(function (e) {
+            return false;
         })
 
-        $("#checkIsDone" + (allActivities[allActivities.length-1].id)).click(function() {          
+        $("#checkIsDone" + (allActivities[allActivities.length - 1].id)).click(function () {
             let activityNumber = String($(this)[0].id).replace(/[^0-9]/g, '');
             console.log("click " + String($(this)[0].id).replace(/[^0-9]/g, ''));
-            $("#activity"+activityNumber).hide("slow");
+            $("#activity" + activityNumber).hide("slow");
             //allActivities[activityNumber-1].done = true;
-            for(let i=0;i<allActivities.length;i++) {
-                if(allActivities[i].id == activityNumber) {
+            for (let i = 0; i < allActivities.length; i++) {
+                if (allActivities[i].id == activityNumber) {
                     allActivities[i].done = true;
+                    TODOStorage.updateTodo(activityNumber);
                     break;
                 }
-            }  
+            }
         })
 
-        $("#"+buttonId).click(function() {
+        //Remove item
+        $("#" + buttonId).click(function () {
             let activityNumber = String($(this)[0].id).replace(/[^0-9]/g, '');
-            $("#activity"+activityNumber).hide("slow");
+            $("#activity" + activityNumber).hide("slow");
             let activityToBeRemoved;
-            for(let i=0;i<allActivities.length;i++) {
-                if(allActivities[i].id == activityNumber) {
+            for (let i = 0; i < allActivities.length; i++) {
+                if (allActivities[i].id == activityNumber) {
                     addToSpendingMoney(allActivities[i].price);
                     allActivities.splice(i, 1);
+                    TODOStorage.deleteTodoById(activityNumber);
+                    console.log(activityNumber);
                     break;
                 }
-            }  
+            }
 
         })
     }
 
     //Remove from spending money
     function removeFromSpendingMoney(sumToRemove) {
-        spendingMoney -= sumToRemove;
+        spendingMoney -= Number(sumToRemove);
         const spendingMoneyLbl = document.getElementById("spending-money");
         spendingMoneyLbl.innerHTML = spendingMoney;
     }
 
     //Add to spending money
     function addToSpendingMoney(sumToBeAdded) {
-        spendingMoney += sumToBeAdded;
+        spendingMoney += Number(sumToBeAdded);
         const spendingMoneyLbl = document.getElementById("spending-money");
-        spendingMoneyLbl.innerHTML = spendingMoney;        
+        spendingMoneyLbl.innerHTML = spendingMoney;
     }
 
 
-    return { 
+    return {
         init,
         addToList,
         removeFromSpendingMoney
     }
 })();
-
-//ORM - Object Resource Manager
-var TODOStorage = (function () {
-    var todos = [];
-    function init() {
-        const lsTodos = localStorage.getItem('TODOS');
-        todos = JSON.parse(lsTodos)
-        if (todos === null) {
-            todos = [];
-        }
-
-        const debugButton = document.getElementById("add");
-        debugButton.addEventListener("click", function() {
-            let randomGenerator = Math.random();
-            let newRandom = false;
-            if(randomGenerator >= 0,5) {
-                newRandom = true;
-            }
-            let newDescription = "nån text " + randomGenerator;
-
-            saveTodo(newRandom, newDescription);
-        })
-
-        const debugButtonLoad = document.getElementById("load");
-        debugButtonLoad.addEventListener("click", function() {
-            const pTodo = getTodoById(2);
-            let texten = document.getElementById("texten");
-            texten.innerHTML = String("id: " + pTodo.id + " Descr: " + pTodo.description + " Done: " + pTodo.done );
-        })
-
-        let texten = document.getElementById("texten");
-            texten.innerHTML = String("id: " + pTodo.id + " Descr: " + pTodo.description + " Done: " + pTodo.done );
-       
-
-    }
-    function saveTodo(done, description) {
-        
-        let maxId = 0
-        for (const i in todos) {
-            const todo = todos[i];
-            if (todo.id > maxId) {
-                maxId = todo.id;
-            }
-        }
-        const todo = {
-            id: maxId + 1,
-            done: done,
-            description: description
-        }
-        todos.push(todo);
-        saveChanges();
-    }
-
-    function listTodos() {
-        return todos;
-    }
-
-    function updateTodo() {
-        for (const i in todos === id) {
-            if (todos[i].id === id) {
-                todos[i].done = done;
-                todos[i].description = description;
-            }
-        }
-        saveChanges();
-    }
-
-    function getTodoById(id) {
-        for (const i in todos) {
-            const todo = todos[i];
-            if (todo.id === id) {
-                return todo;
-            }
-        }
-        return null;
-    }
-    function deleteTodoById(id) {
-        for (const i in todos) {
-            const todo = todos[i];
-            if (todo.id === id) {
-                todos.splice(i, 1);
-                break;
-            }
-        }
-        saveChanges();
-    }
-    function saveChanges() {
-        const lsTodos = JSON.stringify(todos)
-        localStorage.setItem('TODOS', lsTodos);
-    }
-    return { init, saveTodo, listTodos, getTodoById, updateTodo, deleteTodoById };
-})();
-
-/*document.addEventListener('DOMContentLoaded', function () {
-    TODOStorage.init();
-}) */
 
 //Run code when the DOM has loaded.
 window.addEventListener("DOMContentLoaded", DocumentHandler.init);
