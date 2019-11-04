@@ -124,11 +124,26 @@ function callLog() {
 
 var TODOStorage = (function () {
     var todos = [];
+    var userList = [];
 
     function init() {
+        //Added code to get current user key
+        const userKey = localStorage.getItem("userKey");
+        currentUser = JSON.parse(userKey);
+
+        //Code to get all users
+        const users = localStorage.getItem("travelUsers");
+        userList = JSON.parse(users);
+        debugVariable2 = userList;
+        console.log("We are sending variable " + currentUser);
+        debugVariable1 = getUserById(currentUser);
+
+        let helloMsg = document.getElementById("hello-message");
+        helloMsg.innerHTML = "Hello " + debugVariable1.firstName;
+
         const lsTodos = localStorage.getItem('TODOS');
         todos = JSON.parse(lsTodos)
-        debugVariable1 = todos;
+
         if (todos === null) {
             todos = [];
         }
@@ -221,8 +236,8 @@ var TODOStorage = (function () {
 
     function updateTodo(newId) {
         console.log("1");
-       // for (let i in todos == newId) {
-           for(let i=0;i<todos.length;i++) {
+        // for (let i in todos == newId) {
+        for (let i = 0; i < todos.length; i++) {
             if (todos[i].id == newId) {
                 console.log("Trying to change to true");
                 todos[i].done = true;
@@ -232,7 +247,19 @@ var TODOStorage = (function () {
         }
         saveChanges();
     }
+    //Get user by id
+    function getUserById(id) {
+        console.log("Inside getUserById with number " + id);
+        for (let i = 0; i < userList.length; i++) {
+            if (id == userList[i].ID) {
+                console.log("trying to get user " + userList[i].firstName + " with id " + userList[i].ID);
+                return userList[i];
+            }
+        }
+        return null;
+    }
 
+    //Get todo-activity by id
     function getTodoById(id) {
         for (const i in todos) {
             const todo = todos[i];

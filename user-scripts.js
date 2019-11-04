@@ -28,6 +28,7 @@ var EventHandlers = (function () {
 
 function goToTravelTodo() {
     console.log("TravelTODO");
+    window.open("todomain.html")
     //Apply code to continue to travels
     //Make connection with Jonas page
 }

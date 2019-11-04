@@ -117,6 +117,8 @@ var DocumentHandler = (function () {
                 }
             }
         });
+
+
     }
 
     //add to list of activities
