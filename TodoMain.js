@@ -26,7 +26,7 @@ function MasterIDHandler(shouldAdd) {
     }
 }
 
-function ActivityObject(newId, newName, newDate, newTime, newPrice, isChildActivity, isInside, isDone) {
+function ActivityObject(newId, newName, newDate, newTime, newPrice, isChildActivity, isInside, isDone, newUserId) {
     this.id = newId; //MasterIDHandler(true);
     this.activityName = newName;
     this.date = newDate;
@@ -35,6 +35,7 @@ function ActivityObject(newId, newName, newDate, newTime, newPrice, isChildActiv
     this.childActivity = isChildActivity;
     this.insideActivity = isInside;
     this.done = isDone;
+    this.userId = newUserId;
 
     DocumentHandler.removeFromSpendingMoney(newPrice);
 }

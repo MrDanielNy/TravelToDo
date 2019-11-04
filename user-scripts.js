@@ -314,8 +314,8 @@ var UserStorage = (function () {
             password: newPassword,
             firstName: newFirstName,
             lastName: newLastName,
-            userMail: newUserMail,
-            //travels: []
+            userMail: newUserMail
+            //todos: TODOStorage.returnTodo() //[] //added by DN.
         };
 
         travelUsers.push(newUserObject);

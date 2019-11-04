@@ -7,7 +7,7 @@ function closeForm() {
     document.getElementById("createActivity").style.display = "none";
 }
 
-
+var currentUserList;
 
 const inputActivityFromForm = document.getElementById("inputActivity");
 const inputDateFromForm = document.getElementById("inputDate");
@@ -89,7 +89,7 @@ var APopupHandler = (function () {
             localStorage.setItem("Child", JSON.stringify(setChild));
             localStorage.setItem("Inside", JSON.stringify(setInside));*/
 
-            TODOStorage.saveTodo(setActivity, setTime, setDate, setNumber, setChild, setInside);
+            TODOStorage.saveTodo(setActivity, setTime, setDate, setNumber, setChild, setInside, currentUserKey);
         }
     }
 
@@ -123,30 +123,40 @@ function callLog() {
 */
 
 var TODOStorage = (function () {
-    var todos = [];
+    var todosList = [];
     var userList = [];
+    var todos = [];
 
     function init() {
         //Added code to get current user key
         const userKey = localStorage.getItem("userKey");
-        currentUser = JSON.parse(userKey);
+        currentUserKey = JSON.parse(userKey);
 
         //Code to get all users
         const users = localStorage.getItem("travelUsers");
         userList = JSON.parse(users);
         debugVariable2 = userList;
-        console.log("We are sending variable " + currentUser);
-        debugVariable1 = getUserById(currentUser);
+        console.log("We are sending variable " + currentUserKey);
+        debugVariable1 = getUserById(currentUserKey);
 
         let helloMsg = document.getElementById("hello-message");
         helloMsg.innerHTML = "Hello " + debugVariable1.firstName;
 
         const lsTodos = localStorage.getItem('TODOS');
-        todos = JSON.parse(lsTodos)
-
+        todosList = JSON.parse(lsTodos)
+        debugVariable2 = todosList;
+        if(todosList != null) {
+            for(let i=0;i<todosList.length;i++) {
+                if(currentUserKey == todosList[i].userId) {
+                    todos.push(todosList[i]);
+                }
+            }
+        }
+       
         if (todos === null) {
             todos = [];
-        }
+        } 
+
         /*
         if (getTodoById(1)) {
 
@@ -167,13 +177,12 @@ var TODOStorage = (function () {
 
             var getInside = getTodoById(1).inside;
             div6.innerHTML = "Is the activity inside or outside: " + getInside;
-
-
         }
         */
         //New DN code to add objects to list
         console.log("todos is " + todos.length);
         for (let i = 0; i < todos.length; i++) {
+        
             var newId = todos[i].id;
             var newAName = todos[i].activity;
             var newADate = todos[i].date;
@@ -204,7 +213,7 @@ var TODOStorage = (function () {
 
     }
 
-    function saveTodo(activity, time, date, price, child, inside) {
+    function saveTodo(activity, time, date, price, child, inside, userId) {
 
         let maxId = 0
         for (const i in todos) {
@@ -215,6 +224,7 @@ var TODOStorage = (function () {
 
         }
         const todo = {
+            userId: userId,
             id: maxId + 1,
             activity: activity,
             time: time,
@@ -225,19 +235,18 @@ var TODOStorage = (function () {
             done: false
         }
 
-        todos.push(todo);
+        todosList.push(todo);
 
         saveChanges();
     }
 
     function listTodos() {
-        return todos;
+        return todosList;
     }
 
     function updateTodo(newId) {
-        console.log("1");
         // for (let i in todos == newId) {
-        for (let i = 0; i < todos.length; i++) {
+        for (let i = 0; i < todosList.length; i++) {
             if (todos[i].id == newId) {
                 console.log("Trying to change to true");
                 todos[i].done = true;
@@ -281,16 +290,19 @@ var TODOStorage = (function () {
                 break;
             }
         }
-
         saveChanges();
     }
 
     function saveChanges() {
-        const lsTodos = JSON.stringify(todos)
+        const lsTodos = JSON.stringify(todosList)
         localStorage.setItem('TODOS', lsTodos);
     }
 
-
+    /*
+    function returnTodo() {
+        const lsTodos = JSON.stringify(todos);
+        return lsTodos;
+    } */
 
     return { init, saveTodo, listTodos, getTodoById, updateTodo, deleteTodoById };
 })();
