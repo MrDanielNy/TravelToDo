@@ -1,43 +1,8 @@
-<<<<<<< Updated upstream
-var i = 0;
-var dateTime = new Date;
-//var travelLocation = [{Place: "", Datum: ""}];
-//var travelLocation = [];
-var travelLocation = JSON.parse(localStorage.getItem("reason")) || [];
-
-
-//var travelLocations = JSON.parse(localStorage.getItem('itemsArray')) || [];
-var datum=dateTime.toLocaleDateString();
-
-function myFunction() {
-    //Skriv ut varje gång knappen klickas
-    var usersList = document.getElementById("travel-list");
-    
-    usersList.innerHTML += "<p>" + "Resa" + i++ + " " + datum + "</p>";
-    //Lagra varje klick i en objekt-lista (heter det så??)
-    //for (let index = 0; index < localStorage.length; index++) {
-        //const element = array[index];
-      //  if (JSON.parse(window.localStorage.getItem('itemsArray').Place) != ("Resa" + i)) {
-        //    travelLocation.push({Place: "Resa"+i});
-          //  travelLocation.push({Datum: datum});
-       // }
-        travelLocation.push({Place: "Resa"+i});
-        travelLocation.push({Datum: datum});
-        localStorage.setItem('reason', JSON.stringify(travelLocation));
-    //}
-        
-   // localStorage.setItem('itemsArray', JSON.stringify(travelLocation)
-    
-    //travelLocations.push(travelLocation);
-    
-    
-=======
 var j = 0;
 var dateTime = new Date;
 //var travelLocation = [{Place: "", Datum: ""}];
 //var travelLocation = [];
 ///var travelLocation = JSON.parse(localStorage.getItem("reason")) || [];
-
 
 //var travelLocations = JSON.parse(localStorage.getItem('itemsArray')) || [];
 var datum = dateTime.toLocaleDateString();
@@ -45,9 +10,12 @@ var datum = dateTime.toLocaleDateString();
 function myFunction() {
   //Skriv ut varje gång knappen klickas
   var usersList = document.getElementById("travel-list");
-  usersList.innerHTML += "<p>" + "Resa" + j++ + " " + datum + "</p>";
+  var input = document.getElementById("input").value;
+  usersList.innerHTML += "<p>" + input + " " + datum + "</p>";
   //Lagra varje klick i en objekt-lista
-  TODOStorage.saveTodo("Resa" + j, datum);
+  TODOStorage.saveTodo(input, datum);
+
+
   //Lagra varje klick i en objekt-lista (heter det så??)
   //for (let index = 0; index < localStorage.length; index++) {
   //const element = array[index];
@@ -65,16 +33,14 @@ function myFunction() {
   //travelLocations.push(travelLocation);
   //Alert popup när resmål klickas
   var a = usersList.getElementsByTagName('p');
-  console.log(a);
+  //console.log(a);
   for (var i = 0; i < a.length; i++) {
     a[i].onclick = function () {
       alert(this.innerHTML);
     }
   }
 
->>>>>>> Stashed changes
 }
-
 
 //travelLocations;
 ///////////////////////////////////////////////
@@ -82,25 +48,6 @@ function myFunction() {
 // window.localStorage.getItem("itemsArray");
 // window.localStorage.clear();
 /////////////////////////////////////////////
-<<<<<<< Updated upstream
-//var list = function(travelLocations) {
-    
-  //  for (var location in travelLocations) {
-    //    window.localStorage.setItem('user', JSON.stringify(location));
-      
-   // }
-   
- // }
-  //list(travelLocations);
-//alert(travelLocations);
-//localStorage.setItem("user", JSON.stringify(travelLocations));
-//function addUser(name) {
-  //  const usersList = document.getElementById("users-list");
-    //usersList.innerHTML += "<li>" + name + " - " + email + "</li>"
-//}
-//return { addUser }
-//alert("Hello");
-=======
 
 var TODOStorage = (function () {
   var todos = [];
@@ -116,7 +63,8 @@ var TODOStorage = (function () {
     //console.log("test");
   }
   ///
-
+  
+  ///
   function saveTodo(done, description) {
     let maxId = 0;
     for (const i in todos) {
@@ -139,16 +87,38 @@ var TODOStorage = (function () {
     saveTodos();
   }
 
+  function getTodoById(id) {
+    //var temp = document.getElementById("utskrift");
+    for (const i in todos) {
+      const todo = todos[i];
+      if (todo.id === id) {
+        return todo;
+      }
+      //temp.innerHTML += "<p>" +  TODOStorage.getTodoById(i).done + TODOStorage.getTodoById(i).description + "</p>";
+    }
+    return null;
+
+  }
+///
+function skriv() {
+  var j=0;
+  for (const i in todos) {
+    j++;
+    document.getElementById("travel-list").innerHTML += "<p>" +  TODOStorage.getTodoById(j).done + " " + TODOStorage.getTodoById(j).description + "</p>";
+  }
+}
+///
+  
   function saveTodos() {
     const lsTodos = JSON.stringify(todos);
     localStorage.setItem("TODOS", lsTodos);
   }
 
-  return { init, saveTodo }
+  return { init, saveTodo, getTodoById, skriv }
 
 })();
 
 document.addEventListener("DOMContentLoaded", function name() {
   TODOStorage.init();
+  TODOStorage.skriv();
 });
->>>>>>> Stashed changes
