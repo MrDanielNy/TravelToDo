@@ -86,7 +86,7 @@ var SignInModul = (function () {
         $("#first-page-modal").show();
         $("#sign-in-pop").show();
     }
-    
+
     function checkPassword() {
         event.preventDefault();
         let index = -1;
@@ -118,6 +118,17 @@ var SignInModul = (function () {
         event.preventDefault();
         console.log("get password!!")
         //check username input and see if user has email then send alert..
+        usernameInput = $("#forgetfull-user-input").val()
+        travelUsers = JSON.parse(localStorage.getItem("travelUsers"));
+        if (travelUsers === null) { travelUsers = [] };
+        
+        for(user of travelUsers){
+            if(user.userName === usernameInput && user.userMail !== ""){
+                alert("Your password is:\n"+ user.password);
+                break;
+            }
+        }
+
     }
     return {
         signInPop,
