@@ -33,8 +33,10 @@ function goToTravelTodo(){
 }
 
 function signOut(){
-    console.log("SIgnOut");
     //hide user manager popup and delete userKey
+    $("#first-page-modal").hide();
+    $("#change-user-popup").hide();
+    localStorage.removeItem("userKey")
 }
 
 var TestModule = (function () {
@@ -59,6 +61,10 @@ var TestModule = (function () {
 })();
 
 
+///////////////////////
+//Sign in modul
+//////////////////////
+
 var SignInModul = (function () {
     function forgotPasswordPop(){
         event.preventDefault();
@@ -80,6 +86,7 @@ var SignInModul = (function () {
         $("#first-page-modal").show();
         $("#sign-in-pop").show();
     }
+    
     function checkPassword() {
         event.preventDefault();
         let index = -1;
@@ -122,6 +129,10 @@ var SignInModul = (function () {
     }
 })();
 
+/////////////////////////
+//Make new users pop up!!
+/////////////////////////
+
 var NewUserModul = (function () {
     function newUserPop() {
         event.preventDefault();
@@ -154,9 +165,9 @@ var NewUserModul = (function () {
             return;
         }
         UserStorage.saveNewUser(newUserName, newPassword, "", "", "");
-
+        travelUsers = JSON.parse(localStorage.getItem("travelUsers"));
+        localStorage.setItem("userKey", JSON.stringify(travelUsers[travelUsers.length-1].ID));
         UserManager.userInfoManager()
-
     }
     return {
         newUserPop,
@@ -166,6 +177,9 @@ var NewUserModul = (function () {
     }
 })();
 
+/////////////////////////////
+//Make changes
+////////////////////////////
 var UserManager = (function () {
     function changePasswordPop(){
         event.preventDefault();
@@ -177,8 +191,6 @@ var UserManager = (function () {
         $("#change-password-popup").hide();
         $("#change-user-popup").show();
     }
-
-
 
     function userInfoManager() {
         $("#first-page-modal").show();
@@ -252,11 +264,11 @@ var UserStorage = (function () {
             firstName: newFirstName,
             lastName: newLastName,
             userMail: newUserMail,
-            travels: []
+            //travels: []
         };
 
-        userKey = newUserObject.ID;
-        localStorage.setItem("userKey", JSON.stringify(userKey));
+        
+        
         travelUsers.push(newUserObject);
         saveChanges();
     }
