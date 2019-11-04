@@ -153,8 +153,8 @@ var TODOStorage = (function () {
             }
         }
        
-        if (todos === null) {
-            todos = [];
+        if (todosList === null) {
+            todosList = [];
         } 
 
         /*
