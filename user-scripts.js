@@ -28,7 +28,6 @@ var EventHandlers = (function () {
 
 function goToTravelTodo() {
     console.log("TravelTODO");
-    window.open("todomain.html")
     //Apply code to continue to travels
     //Make connection with Jonas page
 }
@@ -314,8 +313,8 @@ var UserStorage = (function () {
             password: newPassword,
             firstName: newFirstName,
             lastName: newLastName,
-            userMail: newUserMail
-            //todos: TODOStorage.returnTodo() //[] //added by DN.
+            userMail: newUserMail,
+            //travels: []
         };
 
         travelUsers.push(newUserObject);
