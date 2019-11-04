@@ -23,16 +23,16 @@ var EventHandlers = (function () {
 })();
 
 //if there is userKey go to user manager
+//change this last
 
 
-
-function goToTravelTodo(){
+function goToTravelTodo() {
     console.log("TravelTODO");
     //Apply code to continue to travels
     //Make connection with Jonas page
 }
 
-function signOut(){
+function signOut() {
     //hide user manager popup and delete userKey
     $("#first-page-modal").hide();
     $("#change-user-popup").hide();
@@ -62,16 +62,16 @@ var TestModule = (function () {
 
 
 ///////////////////////
-//Sign in modul
+//Sign in popUp
 //////////////////////
 
 var SignInModul = (function () {
-    function forgotPasswordPop(){
+    function forgotPasswordPop() {
         event.preventDefault();
         $("#sign-in-pop").hide();
         $("#forgot-password-popup").show();
     }
-    function forgotPasswordClose(){
+    function forgotPasswordClose() {
         event.preventDefault();
         $("#forgot-password-popup").hide();
         $("#sign-in-pop").show();
@@ -89,6 +89,7 @@ var SignInModul = (function () {
 
     function checkPassword() {
         event.preventDefault();
+        //indexNr in travelUsers if no match index is -1
         let index = -1;
         let userInput = document.getElementById("username-input").value;
         let passwordInput = document.getElementById("password-input").value;
@@ -111,20 +112,20 @@ var SignInModul = (function () {
         $("#password-input").val("");
 
         goToTravelTodo();
-        
+
     }
 
-    function getPassword(){
+    function getPassword() {
         event.preventDefault();
         console.log("get password!!")
         //check username input and see if user has email then send alert..
         usernameInput = $("#forgetfull-user-input").val()
         travelUsers = JSON.parse(localStorage.getItem("travelUsers"));
         if (travelUsers === null) { travelUsers = [] };
-        
-        for(user of travelUsers){
-            if(user.userName === usernameInput && user.userMail !== ""){
-                alert("Your password is:\n"+ user.password);
+
+        for (user of travelUsers) {
+            if (user.userName === usernameInput && user.userMail !== "") {
+                alert("Your password is:\n" + user.password);
                 break;
             }
         }
@@ -177,7 +178,7 @@ var NewUserModul = (function () {
         }
         UserStorage.saveNewUser(newUserName, newPassword, "", "", "");
         travelUsers = JSON.parse(localStorage.getItem("travelUsers"));
-        localStorage.setItem("userKey", JSON.stringify(travelUsers[travelUsers.length-1].ID));
+        localStorage.setItem("userKey", JSON.stringify(travelUsers[travelUsers.length - 1].ID));
         UserManager.userInfoManager()
     }
     return {
@@ -192,12 +193,12 @@ var NewUserModul = (function () {
 //Make changes
 ////////////////////////////
 var UserManager = (function () {
-    function changePasswordPop(){
+    function changePasswordPop() {
         event.preventDefault();
         $("#change-user-popup").hide();
         $("#change-password-popup").show();
     }
-    function changePasswordClose(){
+    function changePasswordClose() {
         event.preventDefault();
         $("#change-password-popup").hide();
         $("#change-user-popup").show();
@@ -211,10 +212,10 @@ var UserManager = (function () {
         $("#change-password-popup").hide();
         $("#change-user-popup").show();
 
-        userkey = JSON.parse(localStorage.getItem("userKey"))
+        userKey = JSON.parse(localStorage.getItem("userKey"))
         travelUsers = JSON.parse(localStorage.getItem("travelUsers"))
-        for(let user of travelUsers){
-            if(userKey === user.ID){
+        for (let user of travelUsers) {
+            if (userKey === user.ID) {
                 $("#change-username-input").val(user.userName);
                 $("#change-firstname-input").val(user.firstName);
                 $("#change-lastname-input").val(user.lastName);
@@ -223,13 +224,44 @@ var UserManager = (function () {
         }
 
     }
-    function changeUserInfo(){
+    function changeUserInfo() {
         event.preventDefault();
-        console.log("change user input")
         //check info from input and make changes..
+        userKey = JSON.parse(localStorage.getItem("userKey"))
+        travelUsers = JSON.parse(localStorage.getItem("travelUsers"))
+        var newUserUser = $("#change-username-input").val();
+        var newUserFirst = $("#change-firstname-input").val();
+        var newUserLast = $("#change-lastname-input").val();
+        var newUserMail = $("#change-email-input").val();
 
+        //Change user values
+        for (user of travelUsers) {
+            if (user.ID === userKey) {
+                user.firstName = newUserFirst;
+                user.lastName = newUserLast;
+                user.userMail = newUserMail;
+                break;
+            }
+        }
+        //Check userName
+        for (user of travelUsers) {
+            if (user.userName === newUserUser && user.ID !== userKey) {
+                alert("user name already taken");
+                userInfoManager();        
+                return;
+            }
+        }
+        for(user of travelUsers){
+            if(user.ID === userKey){
+                user.userName = newUserUser;
+                break;
+            }
+        }
+        localStorage.setItem("travelUsers", JSON.stringify(travelUsers));
+
+        userInfoManager();
     }
-    function changeUserPassword(){
+    function changeUserPassword() {
         event.preventDefault();
         console.log("change user password")
         //check password input and make changes..
@@ -245,12 +277,17 @@ var UserManager = (function () {
 
 })();
 
+//////////////////
+//Why....
+///////////////
+
 var UserStorage = (function () {
 
     var travelUsers = [];
 
     function init() {
         //maybe take this away, doesn't seem to receive localStorage every time..
+        //think localStorage is empty when reload page
         var travelUsers = JSON.parse(localStorage.getItem("travelUsers"));
         if (travelUsers === null) {
             travelUsers = [];
@@ -278,8 +315,6 @@ var UserStorage = (function () {
             //travels: []
         };
 
-        
-        
         travelUsers.push(newUserObject);
         saveChanges();
     }
