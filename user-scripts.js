@@ -267,6 +267,26 @@ var UserManager = (function () {
         userKey = JSON.parse(localStorage.getItem("userKey"));
         travelUsers = JSON.parse(localStorage.getItem("travelUsers"));
         //check password input and make changes..
+        var oldPassword = $("#old-password-input").val();
+        var newPassword = $("#new-password-input").val();
+        var repeatPassword = $("#change-password-input").val();
+        for(user of travelUsers){
+            if(user.ID === userKey && user.password !== oldPassword){
+                alert("Wrong password!");
+                return;
+            }
+        }
+        if(newPassword !== repeatPassword){
+            alert("new passwords doesnt match");
+            return;
+        }
+        for(user of travelUsers){
+            if(user.ID === userKey){
+                user.password = newPassword;
+                break;
+            }
+        }
+        
     }
 
     return {
@@ -281,7 +301,7 @@ var UserManager = (function () {
 
 //////////////////
 //Why....
-///////////////
+/////////////////
 
 var UserStorage = (function () {
 
