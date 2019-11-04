@@ -7,7 +7,7 @@ function closeForm() {
     document.getElementById("createActivity").style.display = "none";
 }
 
-var currentUserList;
+
 
 const inputActivityFromForm = document.getElementById("inputActivity");
 const inputDateFromForm = document.getElementById("inputDate");
@@ -89,7 +89,7 @@ var APopupHandler = (function () {
             localStorage.setItem("Child", JSON.stringify(setChild));
             localStorage.setItem("Inside", JSON.stringify(setInside));*/
 
-            TODOStorage.saveTodo(setActivity, setTime, setDate, setNumber, setChild, setInside, currentUserKey);
+            TODOStorage.saveTodo(setActivity, setTime, setDate, setNumber, setChild, setInside);
         }
     }
 
@@ -123,40 +123,15 @@ function callLog() {
 */
 
 var TODOStorage = (function () {
-    var todosList = [];
-    var userList = [];
     var todos = [];
 
     function init() {
-        //Added code to get current user key
-        const userKey = localStorage.getItem("userKey");
-        currentUserKey = JSON.parse(userKey);
-
-        //Code to get all users
-        const users = localStorage.getItem("travelUsers");
-        userList = JSON.parse(users);
-        debugVariable2 = userList;
-        console.log("We are sending variable " + currentUserKey);
-        debugVariable1 = getUserById(currentUserKey);
-
-        let helloMsg = document.getElementById("hello-message");
-        helloMsg.innerHTML = "Hello " + debugVariable1.firstName;
-
         const lsTodos = localStorage.getItem('TODOS');
-        todosList = JSON.parse(lsTodos)
-        debugVariable2 = todosList;
-        if(todosList != null) {
-            for(let i=0;i<todosList.length;i++) {
-                if(currentUserKey == todosList[i].userId) {
-                    todos.push(todosList[i]);
-                }
-            }
-        }
-       
+        todos = JSON.parse(lsTodos)
+        debugVariable1 = todos;
         if (todos === null) {
             todos = [];
-        } 
-
+        }
         /*
         if (getTodoById(1)) {
 
@@ -177,12 +152,13 @@ var TODOStorage = (function () {
 
             var getInside = getTodoById(1).inside;
             div6.innerHTML = "Is the activity inside or outside: " + getInside;
+
+
         }
         */
         //New DN code to add objects to list
         console.log("todos is " + todos.length);
         for (let i = 0; i < todos.length; i++) {
-        
             var newId = todos[i].id;
             var newAName = todos[i].activity;
             var newADate = todos[i].date;
@@ -213,7 +189,7 @@ var TODOStorage = (function () {
 
     }
 
-    function saveTodo(activity, time, date, price, child, inside, userId) {
+    function saveTodo(activity, time, date, price, child, inside) {
 
         let maxId = 0
         for (const i in todos) {
@@ -224,7 +200,6 @@ var TODOStorage = (function () {
 
         }
         const todo = {
-            userId: userId,
             id: maxId + 1,
             activity: activity,
             time: time,
@@ -235,18 +210,19 @@ var TODOStorage = (function () {
             done: false
         }
 
-        todosList.push(todo);
+        todos.push(todo);
 
         saveChanges();
     }
 
     function listTodos() {
-        return todosList;
+        return todos;
     }
 
     function updateTodo(newId) {
-        // for (let i in todos == newId) {
-        for (let i = 0; i < todosList.length; i++) {
+        console.log("1");
+       // for (let i in todos == newId) {
+           for(let i=0;i<todos.length;i++) {
             if (todos[i].id == newId) {
                 console.log("Trying to change to true");
                 todos[i].done = true;
@@ -256,19 +232,7 @@ var TODOStorage = (function () {
         }
         saveChanges();
     }
-    //Get user by id
-    function getUserById(id) {
-        console.log("Inside getUserById with number " + id);
-        for (let i = 0; i < userList.length; i++) {
-            if (id == userList[i].ID) {
-                console.log("trying to get user " + userList[i].firstName + " with id " + userList[i].ID);
-                return userList[i];
-            }
-        }
-        return null;
-    }
 
-    //Get todo-activity by id
     function getTodoById(id) {
         for (const i in todos) {
             const todo = todos[i];
@@ -290,19 +254,16 @@ var TODOStorage = (function () {
                 break;
             }
         }
+
         saveChanges();
     }
 
     function saveChanges() {
-        const lsTodos = JSON.stringify(todosList)
+        const lsTodos = JSON.stringify(todos)
         localStorage.setItem('TODOS', lsTodos);
     }
 
-    /*
-    function returnTodo() {
-        const lsTodos = JSON.stringify(todos);
-        return lsTodos;
-    } */
+
 
     return { init, saveTodo, listTodos, getTodoById, updateTodo, deleteTodoById };
 })();
