@@ -23,7 +23,7 @@ var EventHandlers = (function () {
 })();
 
 //if there is userKey go to user manager
-//change this last
+//change this last 
 
 
 function goToTravelTodo() {
@@ -264,6 +264,8 @@ var UserManager = (function () {
     function changeUserPassword() {
         event.preventDefault();
         console.log("change user password")
+        userKey = JSON.parse(localStorage.getItem("userKey"));
+        travelUsers = JSON.parse(localStorage.getItem("travelUsers"));
         //check password input and make changes..
     }
 
